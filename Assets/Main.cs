@@ -82,5 +82,7 @@ public class Main : MonoBehaviour
         });
 
         await new BehaviorTree.Tree(node7).Run();
+
+        UnityEngine.Debug.Log("行为树执行完毕");
     }
 }
