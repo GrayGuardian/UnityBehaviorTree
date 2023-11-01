@@ -6,7 +6,7 @@ namespace BehaviorTree.Node
     /// </summary>
     public class RandomNode : NodeBase
     {
-        public override NodeType Type { get { return NodeType.Random; } }
+        public override int Type => NodeType.Random; 
         private NodeBase _curNode;
         private int _weightsCount;
         private int[] _maxWeights;

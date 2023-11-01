@@ -12,20 +12,19 @@ namespace BehaviorTree.Node
     /// </summary>
     public class SequenceNode : NodeBase
     {
-        public override NodeType Type { get { return NodeType.Sequence; } }
+        public override int Type => NodeType.Sequence;
         private int _index;                 // 当前执行节点序号
         public SequenceNode(NodeBase[] childrens) : base()
         {
             SetChildrens(childrens);
-            ResetParameter();
-        }
-        protected override void ResetParameter()
-        {
-            _index = 0;
         }
         public override void Visit()
         {
             base.Visit();
+            if (Status == NodeStatus.Ready)
+            {
+                _index = 0;
+            }
             int count = Childrens.Length;
             NodeBase node;
             while(_index < count)

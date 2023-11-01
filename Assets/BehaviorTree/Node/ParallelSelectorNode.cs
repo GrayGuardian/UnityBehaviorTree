@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace BehaviorTree.Node
 {
     /// <summary>
@@ -9,8 +11,7 @@ namespace BehaviorTree.Node
     /// </summary>
     public class ParallelSelectorNode : NodeBase
     {
-        public override NodeType Type { get { return NodeType.Sequence; } }
-
+        public override int Type => NodeType.Sequence;
         public ParallelSelectorNode(NodeBase[] childrens) : base()
         {
             SetChildrens(childrens);
@@ -26,6 +27,7 @@ namespace BehaviorTree.Node
                     node.Visit();
                     if(node.Status == NodeStatus.Success)
                     {
+                        StopAllRuningNode();
                         SetStatus(NodeStatus.Success);
                         return;
                     }
@@ -34,9 +36,20 @@ namespace BehaviorTree.Node
                     allFailed = false;
             }
             if(allFailed)
+            {
+                StopAllRuningNode();
                 SetStatus(NodeStatus.Failed);
+            }
             else
                 SetStatus(NodeStatus.Running);
+        }
+
+        private void StopAllRuningNode()
+        {
+            foreach (var node in Childrens)
+            {
+                if (node.Status == NodeStatus.Running) node.SetStatus(NodeStatus.Failed);
+            }
         }
     }
 }

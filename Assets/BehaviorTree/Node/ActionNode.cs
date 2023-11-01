@@ -7,7 +7,7 @@ namespace BehaviorTree.Node
     /// </summary>
     public class ActionNode : NodeBase
     {
-        public override NodeType Type { get { return NodeType.Action; } }
+        public override int Type => NodeType.Action;
         private Action _action;
         public ActionNode(Action action) : base()
         {

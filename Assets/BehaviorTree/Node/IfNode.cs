@@ -9,12 +9,11 @@ namespace BehaviorTree.Node
     /// </summary>
     public class IfNode : ConditionNode
     {
-        public override NodeType Type { get { return NodeType.If; } }
+        public override int Type => NodeType.If; 
         private NodeBase _node;
         public IfNode(Func<bool> func, NodeBase node) : base(func)
         {
             _node = node;
-            ResetParameter();
         }
         public override void Visit()
         {

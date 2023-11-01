@@ -22,6 +22,10 @@ namespace BehaviorTree
         public void Reset(){
             Root.Reset(true);
         }
+        public void Disposal()
+        {
+            BehaviorTreeManager.Instance.Remove(this);
+        }
         public void Update()
         {
             if(!_inPlay) return;

@@ -9,7 +9,7 @@ namespace BehaviorTree.Node
     /// </summary>
     public class ParallelSequenceNode : NodeBase
     {
-        public override NodeType Type { get { return NodeType.Sequence; } }
+        public override int Type => NodeType.Sequence;
 
         public ParallelSequenceNode(NodeBase[] childrens) : base()
         {
@@ -26,6 +26,7 @@ namespace BehaviorTree.Node
                     node.Visit();
                     if(node.Status == NodeStatus.Failed)
                     {
+                        StopAllRuningNode();
                         SetStatus(NodeStatus.Failed);
                         return;
                     }
@@ -34,9 +35,19 @@ namespace BehaviorTree.Node
                     allSuceess = false;
             }
             if(allSuceess)
+            {
+                StopAllRuningNode();
                 SetStatus(NodeStatus.Success);
+            }   
             else
                 SetStatus(NodeStatus.Running);
+        }
+        private void StopAllRuningNode()
+        {
+            foreach (var node in Childrens)
+            {
+                if (node.Status == NodeStatus.Running) node.SetStatus(NodeStatus.Failed);
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace BehaviorTree.Node
     /// </summary>
     public class NegationNode : NodeBase
     {
-        public override NodeType Type { get { return NodeType.Negation; } }
+        public override int Type => NodeType.Negation;
         private NodeBase _node;
         public NegationNode(NodeBase node) : base()
         {

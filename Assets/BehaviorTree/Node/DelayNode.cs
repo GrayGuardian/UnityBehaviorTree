@@ -1,37 +1,43 @@
 using System;
+using System.Diagnostics;
+
 namespace BehaviorTree.Node
 {
     /// <summary>
     /// 延迟节点
-    /// 延迟执行节点，等待阶段返回Running，执行返回执行节点结果
+    /// 延迟 x ms执行节点，等待阶段返回Running，执行返回执行节点结果
     /// </summary>
     public class DelayNode : ConditionWaitNode
     {
-        public override NodeType Type { get { return NodeType.Delay; } }
+        public override int Type => NodeType.Delay;
         private NodeBase _node;
-        private float _startTime;
-        private float _waitTime;
-        private float _timeOffset;
-        public DelayNode(float waitTime, NodeBase node) : base(null)
+        private double _startTime;
+        private double _waitTime;
+
+        private Stopwatch _stopwatch;
+        public DelayNode(double waitTime, NodeBase node) : base(null)
         {
             _node = node;
             _waitTime = waitTime;
-            ResetParameter();
+
+            _stopwatch = Stopwatch.StartNew();
+            _startTime = _stopwatch.Elapsed.TotalMilliseconds;
+
             _func = CheckWait;
         }
         private bool CheckWait()
         {
-            float timeOffset = UnityEngine.Time.unscaledTime - _startTime;
+            var timeOffset = _stopwatch.Elapsed.TotalMilliseconds - _startTime;
             return timeOffset >= _waitTime;
-        }
-
-        protected override void ResetParameter()
-        {
-            _startTime = UnityEngine.Time.unscaledTime;
         }
         public override void Visit()
         {
             base.Visit();
+            if(Status == NodeStatus.Ready)
+            {
+                _stopwatch = Stopwatch.StartNew();
+                _startTime = _stopwatch.Elapsed.TotalMilliseconds;
+            }
             if(Status == NodeStatus.Success)
             {
                 _node.Visit();

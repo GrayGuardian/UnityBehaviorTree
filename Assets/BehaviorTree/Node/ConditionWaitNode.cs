@@ -7,7 +7,7 @@ namespace BehaviorTree.Node
     /// </summary>
     public class ConditionWaitNode : NodeBase
     {
-        public override NodeType Type { get { return NodeType.ConditionWait; } }
+        public override int Type => NodeType.ConditionWait; 
         protected Func<bool> _func;
         public ConditionWaitNode(Func<bool> func) : base()
         {
