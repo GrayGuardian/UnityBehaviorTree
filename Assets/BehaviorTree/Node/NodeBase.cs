@@ -7,7 +7,7 @@ namespace BehaviorTree.Node
     public abstract class NodeBase
     {
         public virtual int Type { get; set; }
-        public BehaviorTree Tree;
+        public Tree Tree;
         public NodeStatus Status { get; private set; }
         public NodeBase Parent;
         public NodeBase[] Childrens;
@@ -23,7 +23,7 @@ namespace BehaviorTree.Node
         }
 
         // 设置行为树
-        public NodeBase SetTree(BehaviorTree tree)
+        public NodeBase SetTree(Tree tree)
         {
             Tree = tree;
             if (Childrens != null)
