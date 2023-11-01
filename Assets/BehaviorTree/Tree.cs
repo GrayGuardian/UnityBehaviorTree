@@ -55,7 +55,7 @@ namespace BehaviorTree
             while (InRun)
             {
                 if (IsPause) continue;
-                Root.Visit();
+                Root.Visit().GetAwaiter().GetResult();
                 Root.Step();
                 yield return 0;
             }

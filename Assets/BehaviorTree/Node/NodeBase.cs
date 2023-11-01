@@ -1,4 +1,6 @@
 ﻿
+using Cysharp.Threading.Tasks;
+
 namespace BehaviorTree.Node
 {
     /// <summary>
@@ -57,7 +59,7 @@ namespace BehaviorTree.Node
         }
 
         // 节点事件
-        public virtual void Visit()
+        public async virtual UniTask Visit()
         {
 
         }

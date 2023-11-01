@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Diagnostics;
 
@@ -30,9 +31,9 @@ namespace BehaviorTree.Node
             var timeOffset = _stopwatch.Elapsed.TotalMilliseconds - _startTime;
             return timeOffset >= _waitTime;
         }
-        public override void Visit()
+        public async override UniTask Visit()
         {
-            base.Visit();
+            await base.Visit();
             if(Status == NodeStatus.Ready)
             {
                 _stopwatch = Stopwatch.StartNew();
@@ -40,7 +41,7 @@ namespace BehaviorTree.Node
             }
             if(Status == NodeStatus.Success)
             {
-                _node.Visit();
+                await _node.Visit();
                 SetStatus(_node.Status);
             }
         }

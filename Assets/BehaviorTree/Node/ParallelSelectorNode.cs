@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Diagnostics;
 
 namespace BehaviorTree.Node
@@ -16,15 +17,15 @@ namespace BehaviorTree.Node
         {
             SetChildrens(childrens);
         }
-        public override void Visit()
+        public async override UniTask Visit()
         {
-            base.Visit();
+            await base.Visit();
             bool allFailed = true;
             foreach (var node in Childrens)
             {
                 if(node.Status != NodeStatus.Failed)
                 {
-                    node.Visit();
+                    await node.Visit();
                     if(node.Status == NodeStatus.Success)
                     {
                         StopAllRuningNode();

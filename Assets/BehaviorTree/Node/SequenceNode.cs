@@ -1,5 +1,7 @@
 using System.Data;
 using System;
+using Cysharp.Threading.Tasks;
+
 namespace BehaviorTree.Node
 {
     /// <summary>
@@ -18,9 +20,9 @@ namespace BehaviorTree.Node
         {
             SetChildrens(childrens);
         }
-        public override void Visit()
+        public async override UniTask Visit()
         {
-            base.Visit();
+            await base.Visit();
             if (Status == NodeStatus.Ready)
             {
                 _index = 0;
@@ -32,7 +34,7 @@ namespace BehaviorTree.Node
                 node = Childrens[_index];
                 if(node != null)
                 {
-                    node.Visit();
+                    await node.Visit();
                     // 当子节点正在执行中或者失败，则打断等待下次顺序执行
                     if(node.Status == NodeStatus.Running || node.Status == NodeStatus.Failed)
                     {

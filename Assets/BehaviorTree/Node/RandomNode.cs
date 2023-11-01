@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+
 namespace BehaviorTree.Node
 {
     /// <summary>
@@ -26,9 +28,9 @@ namespace BehaviorTree.Node
                 _maxWeights[i] = _weightsCount;
             }
         }
-        public override void Visit()
+        public async override UniTask Visit()
         {
-            base.Visit();
+            await base.Visit();
             if(_curNode == null)
             {
                 int num = UnityEngine.Random.Range(0, _weightsCount);
@@ -47,7 +49,7 @@ namespace BehaviorTree.Node
             }
             if(_curNode != null)
             {
-                _curNode.Visit();
+                await _curNode.Visit();
                 SetStatus(_curNode.Status);
                 if(_curNode.Status != NodeStatus.Running)
                     _curNode = null;

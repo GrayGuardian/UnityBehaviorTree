@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 namespace BehaviorTree.Node
 {
@@ -14,11 +15,12 @@ namespace BehaviorTree.Node
         public NegationNode(NodeBase node) : base()
         {
             _node = node;
+            SetChildrens(new NodeBase[] { _node });
         }
-        public override void Visit()
+        public async override UniTask Visit()
         {
-            base.Visit();
-            _node.Visit();
+            await base.Visit();
+            await _node.Visit();
             switch(_node.Status)
             {
                 case NodeStatus.Running:

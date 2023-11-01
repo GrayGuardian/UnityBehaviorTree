@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 namespace BehaviorTree.Node
 {
@@ -13,9 +14,9 @@ namespace BehaviorTree.Node
         {
             _func = func;
         }
-        public override void Visit()
+        public async override UniTask Visit()
         {
-            base.Visit();
+            await base.Visit();
             if(_func!=null && _func())
                 SetStatus(NodeStatus.Success);
             else
