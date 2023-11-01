@@ -25,6 +25,8 @@ namespace BehaviorTree.Node
             _startTime = _stopwatch.Elapsed.TotalMilliseconds;
 
             _func = CheckWait;
+
+            SetChildrens(new NodeBase[] { node });
         }
         private bool CheckWait()
         {

@@ -15,6 +15,8 @@ namespace BehaviorTree.Node
         public IfNode(Func<bool> func, NodeBase node) : base(func)
         {
             _node = node;
+
+            SetChildrens(new NodeBase[] { node });
         }
         public async override UniTask Visit()
         {
