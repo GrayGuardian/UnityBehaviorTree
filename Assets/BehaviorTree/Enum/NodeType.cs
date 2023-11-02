@@ -19,7 +19,7 @@ namespace BehaviorTree.Node
         public const int ParallelSequence = 9;        // 并行序列节点
         public const int ParallelSelector = 10;       // 并行选择节点
         public const int Random = 11;       // 随机节点
-        public const int Queue = 12;        // 队列节点
+        public const int Selection = 12;       // 选择节点
         public const int End = 99;       // 结束节点
     }
 }

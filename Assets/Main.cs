@@ -62,26 +62,18 @@ public class Main : MonoBehaviour
             new DelayNode(1f,new ActionNode(()=>{UnityEngine.Debug.Log("行为树节点4");})),
         },new int[]{10,1,1,10});
 
-        var node7 = new SelectorNode(new NodeBase[] {
-            new SequenceNode(new NodeBase[] {
-                new ActionNode(()=>{ UnityEngine.Debug.Log("行为树节点1"); }),
-                new ConditionNode(()=>{ return true; }),
-                new DelayNode(1000, new ActionNode(()=>{ UnityEngine.Debug.Log("行为树节点2"); })),
-                new ConditionNode(()=>{ return true; }),
-                new ActionNode(()=>{ UnityEngine.Debug.Log("行为树节点3"); }),
-                new ConditionNode(()=>{ return false; }),
-                new ActionNode(()=>{ UnityEngine.Debug.Log("行为树节点4"); }),
-                new ConditionNode(()=>{ return true; }),
-                new ActionNode(()=>{  UnityEngine.Debug.Log("执行成功"); }),
-                new EndNode(),
-            }),
-            new SequenceNode(new NodeBase[]{
-                new ActionNode(()=>{  UnityEngine.Debug.Log("执行失败"); }),
-                new EndNode(),
-            }),
+        var node7 = new SequenceNode(new NodeBase[] {
+            new SelectionNode(new SequenceNode(new NodeBase[]{
+                new IfNode(()=>{ return true; }, new ActionNode(()=>{ UnityEngine.Debug.Log("Action 1"); })),
+                new IfNode(()=>{ return true; },new DelayNode(1000, new ActionNode(()=>{ UnityEngine.Debug.Log("Action 2"); }))),
+                new IfNode(()=>{ return true; }, new ActionNode(()=>{ UnityEngine.Debug.Log("Action 3"); })),
+                new IfNode(()=>{ return true; }, new ActionNode(()=>{ UnityEngine.Debug.Log("Action 4"); })),
+            }),null,new ActionNode(()=>{ UnityEngine.Debug.Log("执行失败"); })),
+            new ActionNode(() => { UnityEngine.Debug.Log("执行成功"); }),
+            new EndNode()
         });
 
-        await new BehaviorTree.Tree(node7).Run();
+        await BehaviorTree.Tree.Run(node7);
 
         UnityEngine.Debug.Log("行为树执行完毕");
     }

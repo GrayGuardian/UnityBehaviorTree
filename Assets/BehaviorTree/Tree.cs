@@ -2,6 +2,7 @@ using BehaviorTree.Node;
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace BehaviorTree
 {
@@ -59,6 +60,13 @@ namespace BehaviorTree
                 Root.Step();
                 yield return 0;
             }
+        }
+
+        public static async UniTask<Tree> Run(NodeBase root)
+        {
+            var tree = new Tree(root);
+            await tree.Run();
+            return tree;
         }
     }
 }
